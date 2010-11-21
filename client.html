@@ -1,0 +1,47 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+<script type="text/javascript">
+   // Load jQuery
+   google.load("jquery",1, {uncompressed:false});
+</script>
+
+<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+<script type="text/javascript" >
+    var socket = new io.Socket(null, {port: 8080});
+    console.log("socket", socket);
+    socket.connect();
+
+    socket.on('connect', function(){});
+    socket.on('message', function(m){ document.getElementById("messages").innerHTML += m + "<br />"; });
+    socket.on('disconnect', function(){});
+
+    $(document).ready(function() {
+
+      $("a.add").click(function(e){
+	e.preventDefault();
+        var sub = prompt("Enter topic spec");
+        socket.send({subscribe: sub});
+        $("div#subscriptions").append("<a href='' class='remove'>" + sub + "</a><br />");
+        //document.getElementById("subscriptions").innerHTML += "<a href='javascript:removeSub(this)'>" + sub + "</a><br />";
+
+        $("a.remove").click(function(e){
+      	  e.preventDefault();
+	  var sub = $(this).text();
+	  $(this).remove();
+          socket.send({unsubscribe: sub});
+        });
+      });
+    });
+
+</script>
+<title>Client</title>
+</head>
+<body>
+<h1>Client</h1>
+<a class="add" href="">add subscription</a>
+<div id="subscriptions" />
+<div id="messages" />
+</body>
+</html>
