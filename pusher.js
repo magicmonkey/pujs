@@ -20,6 +20,6 @@ var f = function() {
     publish("/foo/bar", "message sent to /foo/bar");
     publish("/foo/foo", "message sent to /foo/foo");
     publish("/testing/foo", "message sent to /testing/foo");
-    setTimeout(f, 1000);
 };
-f();
+setInterval(f, 1000);
+

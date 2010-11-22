@@ -61,6 +61,7 @@ listeners.getByTopic = function(topic) {
     }
     return matches;
 };
+
 listeners.add = function(client, topicSpec) {
     if(this.clients[topicSpec] == undefined) {
         this.clients[topicSpec] = [];
